@@ -28,7 +28,7 @@ public class TimerBar : MonoBehaviour {
         {
             currentPosition = timerBar.transform.position;
             float delta = PlayerPrefs.GetFloat("DIFFICULTY");
-            difficulty = difficulty - 1.0f; // TODO: turn this into a sliding difficulty scale. It's fucking annoying to have it get faster everytime I play... probably means people will hate it too. 
+            difficulty = difficulty - .010f; // TODO: turn this into a sliding difficulty scale. It's fucking annoying to have it get faster everytime I play... probably means people will hate it too. 
             //TODO: have the game controller control the difficulty, not the TimerBar. Remember that these are entirely agnostic of game logic. They only handle their own functionality!
             
             if(difficulty > 0)

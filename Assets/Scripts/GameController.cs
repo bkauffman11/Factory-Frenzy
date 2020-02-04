@@ -16,6 +16,10 @@ public class GameController : MonoBehaviour
     private bool isGameOver = false;
     float difficulty;
 
+    public NodeManager myNodeManager;
+
+    private OutputManager myOutputManager = new OutputManager();
+
 
 	void Start () 
     {
@@ -28,16 +32,21 @@ public class GameController : MonoBehaviour
     {
         PlayerPrefs.SetInt("NUM_LIVES", PlayerPrefs.GetInt("NUMLIVES") - 1);
 
-        if(PlayerPrefs.GetInt("NUMLIVES") < 0)
+        if(PlayerPrefs.GetInt("NUMLIVES") <= 0)
         {
             timerBar.SetIsPaused(true);
             scoreBar.SetIsPaused(true); //TODO: make a Pause function
             isGameOver = true;
             PlayerPrefs.SetFloat("DIFFICULTY", .25f);
             gameOverTextParent.SetActive(true);
+
+            myOutputManager.WriteOutput(myNodeManager.GetTree());
+
         }
         else
         {
+            Debug.Log("lives left: " + PlayerPrefs.GetInt("NUMLIVES"));
+            myOutputManager.WriteOutput(myNodeManager.GetTree());
             Application.LoadLevel(1);
         }
     }
@@ -56,11 +65,6 @@ public class GameController : MonoBehaviour
         }
     }
     
-
-    public void UpdateScore()
-    {
-    
-    }
 
     public void MoveToNextDifficulty()
     {
@@ -85,6 +89,8 @@ public class GameController : MonoBehaviour
         int score = scoreBar.GetScore();
 
         PlayerPrefs.SetInt("MONEY", PlayerPrefs.GetInt("MONEY") + score);
+
+        myOutputManager.WriteOutput(myNodeManager.GetTree());
 
         Application.LoadLevel(1);
     }

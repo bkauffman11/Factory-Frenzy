@@ -16,6 +16,8 @@ public class NodeManager : MonoBehaviour
     private DataManager myDataManager = new DataManager();
     private Node draggedNode = null;
 
+    public GameController myGameController;
+
 	void Start () 
     {
         //TODO: get all this custom start stuff into its own function. 
@@ -48,7 +50,7 @@ public class NodeManager : MonoBehaviour
     {
         for(int i = 1; i < 5; i++)
         {
-            Node node = OnAddNewNode(new Vector2(50, 50 + 50*i));
+            Node node = OnAddNewNode(new Vector2(50, 50*i));
             node.image = images[Random.Range(0, images.Length)];
         }
     }
@@ -106,13 +108,16 @@ public class NodeManager : MonoBehaviour
                 {
                     if(draggedNode != null)
                     {
-                        //TODO: make this into a new fxn
+                        //TODO: make this into a new function. This is too god damn large. 
+                        myGameController.UpdateScore(500);
 
                         //Find out what bucket, if any is present in the spot. 
                         Node bucketNode = tree.GetBucketAtPosition(e.mousePosition);
 
                         if (bucketNode != null)
                         {
+                            //When you add a new node, update the score. 
+
                             //just a handle to save keystrokes and prevent confusion.
                             Node bucketParent = bucketNode.ParentNode;
 
@@ -223,6 +228,11 @@ public class NodeManager : MonoBehaviour
         {
             Debug.Log("NODE number: " + node.featureID);
         }
+    }
+
+    public Tree GetTree()
+    {
+        return tree;
     }
 
 }
