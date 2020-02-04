@@ -18,12 +18,12 @@ public class NodeManager : MonoBehaviour
 
 	void Start () 
     {
-        myDataManager.ImportDataSet();
-
-        //TODO: get all this custom stuff into its own function. 
+        //TODO: get all this custom start stuff into its own function. 
         rootNode = new Node(new Vector2(250, 50), 40, 40, numNodes);
         rootNode.image = images[Random.Range(0, images.Length)];
         tree.Nodes.Add(rootNode);
+
+        rootNode.Data = myDataManager.ImportDataSet();
         AddBuckets(rootNode);
         SetUpNodes();
 	}
@@ -94,7 +94,7 @@ public class NodeManager : MonoBehaviour
             case EventType.KeyDown:
                 if (e.keyCode == KeyCode.Space)
                 {
-                    OnAddNewNode(e.mousePosition);
+                    DebugNodeAtPosition(e.mousePosition);
                 }
                 else if (e.keyCode == KeyCode.Escape)
                 {
@@ -113,30 +113,32 @@ public class NodeManager : MonoBehaviour
 
                         if (bucketNode != null)
                         {
-                            Debug.Log("Bernard, you did it. Believe in yourself from now on.");
+                            //just a handle to save keystrokes and prevent confusion.
+                            Node bucketParent = bucketNode.ParentNode;
 
                             //Add the currently dragged node to the parent's left or right pointer.
                             if(bucketNode.Equals(bucketNode.ParentNode.LNode))
                             {
-                                bucketNode.ParentNode.LNode = draggedNode;
+                                bucketParent.LNode = draggedNode;
+                                draggedNode.Data = myDataManager.GetLeftData(bucketParent.Data, bucketParent.featureID, Random.Range(0, 250));
                             }
                             else if(bucketNode.Equals(bucketNode.ParentNode.RNode))
                             {
-                                bucketNode.ParentNode.LNode = draggedNode;
+                                bucketParent.LNode = draggedNode;
+                                draggedNode.Data = myDataManager.GetRightData(bucketParent.Data, bucketParent.featureID, Random.Range(0, 250));
                             }
 
                             //Delete the bucket node.
                             tree.Nodes.Remove(bucketNode);
 
                             //remove the edge from the bucket's parent to the bucket. 
-                            tree.RemoveEdge(bucketNode.ParentNode, bucketNode);
+                            tree.RemoveEdge(bucketParent, bucketNode);
 
                             //add a new edge from the dragged node's parent to the dragged node.
-                            Edge newEdge = new Edge(bucketNode.ParentNode);
+                            Edge newEdge = new Edge(bucketParent);
                             newEdge.ToID = draggedNode.featureID;
                             newEdge.InitByIds(tree);
                             tree.Edges.Add(newEdge);
-
 
                             //TODO: MAKE THIS AN AUTOMAGIC FUNCTION FOR DELETING NODES. 
 
@@ -187,7 +189,6 @@ public class NodeManager : MonoBehaviour
 
     public void AddBuckets(Node node)
     {
-        Debug.Log("Y: " + node.box.y);
         //Add buckets to node. 
         Node LeftBucket = OnAddNewNode(new Vector2(node.box.x -40, node.box.y + 50)); //TODO: make this NOT hardcoded. 
         node.LNode = LeftBucket;
@@ -208,7 +209,20 @@ public class NodeManager : MonoBehaviour
         RightEdge.InitByIds(tree);
         tree.Edges.Add(RightEdge);
 
-        Debug.Log("RIGHT Y: " + LeftBucket.box.y);
+        //Pass data onto the children. 
+        LeftBucket.Data = myDataManager.GetLeftData(node.Data, node.featureID, Random.Range(0, 250));
+        RightBucket.Data = myDataManager.GetRightData(node.Data, node.featureID, Random.Range(0, 250));
+
+    }
+
+    //This developer command debugs a node at the mouse position
+    public void DebugNodeAtPosition(Vector2 mousePosition)
+    {
+        Node node = tree.GetClickedNode(mousePosition);
+        if(node!= null)
+        {
+            Debug.Log("NODE number: " + node.featureID);
+        }
     }
 
 }

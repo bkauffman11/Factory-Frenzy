@@ -56,7 +56,6 @@ public class Payload
 
     public float getScore()
     {
-
         float numSuccessful = 0.0f;
         float numUnsuccessful = 0.0f;
         for(int i = 0; i < data.GetLength(1); i++)
