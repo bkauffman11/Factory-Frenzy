@@ -14,11 +14,11 @@ public class DataManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-        ImportDataSet();
+
 	}
 	
     //function to parse the data set into various arrays
-    string ImportDataSet()
+    public int[,] ImportDataSet()
     {
 
         StreamReader reader = new StreamReader(path_DATASET);
@@ -56,7 +56,7 @@ public class DataManager : MonoBehaviour {
             }
 
         }
-        return "current value: " + (i_dataSet[1, 1] * 3) + "! wow so cool!";
+        return i_dataSet;
     }
 
 

@@ -8,8 +8,8 @@ public class Edge {
 
     public int FromID;
     public int ToID;
-    private Node FromItem;
-    private Node ToItem;
+    public Node FromItem;
+    public Node ToItem;
 
     public Edge(Node from)
     {
@@ -43,7 +43,9 @@ public class Edge {
 
         Handles.DrawAAPolyLine(4, points);
 
-        Rect rect = new Rect(pEnd.x - 5, pEnd.y, 10, 5);
+        //TODO: draw the rectangle above the node. 
+
+        //Rect rect = new Rect(pEnd.x - 5, pEnd.y, 10, 5);
 
         //Handles.DrawSolidRectangleWithOutline(rect, Color.white, Color.grey);
     }

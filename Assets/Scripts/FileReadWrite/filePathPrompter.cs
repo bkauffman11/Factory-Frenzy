@@ -24,7 +24,7 @@ public class filePathPrompter : MonoBehaviour
             PlayerPrefs.SetString("BasePath", filePath);
             Application.LoadLevel(1);
         }
-        catch(Exception e)
+        catch
         {
             PlayerPrefs.SetString("BasePath", "ERROR");
             //PlayerPrefs.SetString("BasePath", Application.persistentDataPath + "\\Assets\\StreamingAssets\\DATASET_TEXT.txt");

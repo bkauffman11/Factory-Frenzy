@@ -14,35 +14,58 @@ public class Node
 {
     public Node ParentNode = null;
     public Rect box;
+    public Texture2D image = null;
     public int featureID;
-    public int Text;
     public Node LNode = null;
     public Node RNode = null;
     public bool IsLeafNode { get { return (LNode == null && RNode == null && ParentNode != null); } }
+    public int[,] Data;
 
 
     public Node (Vector2 position, float width, float height, int ID)
     {
         box = new Rect(position, new Vector2(width, height));
-        Text = ID;
         featureID = ID;
     }
 
 
-    public void HandleEvent(Event e)
+    //If the node contains the mouse position, then drag it and return true. otherwise return false (meaning the node didn't drag).
+    public bool HandleDragEvent(Event e)
     {
         if(e.type == EventType.MouseDrag)
         {
-            if(box.Contains(e.mousePosition))
+            if(box.Contains(e.mousePosition) && !IsLeafNode)
             {
                 box.position += e.delta; // TODO: have it set to the mouse position, not the mouse drag. that way it will follow better. 
+                if (LNode != null)
+                {
+                    LNode.box.position += e.delta;
+                }
+                if( RNode != null)
+                {
+                    RNode.box.position += e.delta;
+                }
+                return true;
             }
         }
+        return false;
     }
 
     public void Paint()
     {
-        GUI.Box(box, "#: " + Text);
+        if (IsLeafNode || image == null)
+        {
+            GUI.Box(box, "B");
+        }
+        else
+        {
+            GUI.DrawTexture(box, image);
+        }
+    }
+
+    public void DrawImage()
+    {
+        GUI.DrawTexture(box, image);
     }
 
     public void SetParent(Node tNode)
