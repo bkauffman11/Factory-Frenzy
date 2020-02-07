@@ -33,11 +33,11 @@ public class ScoreBar : MonoBehaviour {
             currentPosition = scoreBar.transform.position;
             newPosition = new Vector3(currentPosition.x, currentPosition.y + delta, currentPosition.z);
             
-            if (newPosition.y > 40)
+            if (newPosition.y > 125)
             {
                 MinimumScoreAchieved();
             }
-            else if (newPosition.y > 130)
+            else if (newPosition.y > 250)
             {
                 MaxScoreAchieved();
             }

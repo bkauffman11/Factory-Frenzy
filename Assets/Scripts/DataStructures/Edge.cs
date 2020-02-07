@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +29,6 @@ public class Edge {
         if (FromItem == null || ToItem == null)
             return;
 
-        Handles.color = Color.white;
 
         Vector2 pStart = new Vector2(FromItem.box.width / 2 + FromItem.box.x, FromItem.box.height + FromItem.box.y);
 
@@ -41,7 +39,6 @@ public class Edge {
         points[0] = pStart;
         points[1] = pEnd;
 
-        Handles.DrawAAPolyLine(4, points);
 
         //TODO: draw the rectangle above the node. 
 
@@ -55,8 +52,7 @@ public class Edge {
         if (FromItem == null)
             return;
 
-        Handles.color = Color.white;
         Vector2 pStart = new Vector2(FromItem.box.width / 2 + FromItem.box.x, FromItem.box.y + FromItem.box.height);
-        Handles.DrawLine(pStart, mousePosition); 
+        Debug.DrawLine(new Vector3(pStart.x, pStart.y), new Vector3(mousePosition.x, mousePosition.y));
     }
 }

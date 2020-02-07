@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
@@ -109,7 +108,7 @@ public class NodeManager : MonoBehaviour
                     if(draggedNode != null)
                     {
                         //TODO: make this into a new function. This is too god damn large. 
-                        myGameController.UpdateScore(500);
+                        myGameController.UpdateScore(25);
 
                         //Find out what bucket, if any is present in the spot. 
                         Node bucketNode = tree.GetBucketAtPosition(e.mousePosition);
@@ -173,7 +172,7 @@ public class NodeManager : MonoBehaviour
 
     public Node OnAddNewNode(Vector2 v2position)
     {
-        numNodes++;
+        numNodes = Random.Range(1, 30); //Get a random node between one and thirty. 
         Node node = new Node(new Vector2(v2position.x, v2position.y), 40, 40, numNodes); // TODO: Not make this hard-coded.
         tree.Nodes.Add(node);
         return node;

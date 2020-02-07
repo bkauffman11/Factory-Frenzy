@@ -10,7 +10,7 @@ using System;
 public class DataManager : MonoBehaviour {
 
     int[,] i_dataSet; //i_dataset[ROW, COLUMN] for reference!
-    string path_DATASET = @"C:\Users\berna_000\Desktop\DATASET_TEXT.txt"; //TOOD: get this working on a build too. 
+    string path_DATASET = "Assets\\Resources\\DATASET_TEXT.txt"; //TOOD: get this working on a build too. 
     int NumCandidates = 0;
     int NumFeatures = 0;
 

@@ -17,15 +17,42 @@ public class OutputManager : MonoBehaviour {
 
     public void WriteOutput(Tree tree)
     {
-        string path = @"C:\Users\berna_000\Desktop\OUTPUT_TXT.txt";
+        string path = "Assets\\Resources\\OUTPUT_TXT.csv";
         StreamWriter writer = new StreamWriter(path, true);
-        writer.WriteLine("======================================================");
+        writer.WriteLine("\n======================================================,");
         foreach(Node node in tree.Nodes)
         {
-            string output = "\nNode: " + node.featureID;
-            writer.Write(output);
-        }
+            if(node.IsLeafNode)
+            {
+                writer.WriteLine("X, " + node.ParentNode.featureID +",");
+            }
+            else
+            {
+                //write the node's feature ID, then parent node, then left node (if available), then right node.
+                string nodeID = "" + node.featureID;
+                string parentID = "-1";
+                string LNodeID = "-1";
+                string RNodeID = "-1";
 
+                if(node.ParentNode != null)
+                {
+                    parentID = "" + node.ParentNode.featureID;
+                }
+                if(node.LNode != null)
+                {
+                    //TODO: does there have to be a different way to write buckets? I don't know man...
+                    LNodeID = "" + node.LNode.featureID;
+
+                }
+                if(node.RNode != null)
+                {
+                    RNodeID = "" + node.RNode.featureID;
+                }
+
+                string output = node.featureID + ", " + parentID + ", " + LNodeID + ", " + RNodeID + ",";
+                writer.WriteLine(output);
+            }
+        }
         writer.Close();
     }
 }
